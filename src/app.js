@@ -17,21 +17,25 @@ app.set('views', templatesFolder)
 hbs.registerPartials(partialsFolder)
 
 app.get('', (req, res) => {
-    res.render('index', {title: 'some title', name: 'some name'})
+    res.render('index', {title: 'The root page', description: 'This is the main page of the app', name: 'Steve'})
 })
 
 app.get('/about', (req, res) => {
-    res.render('about', {aboutUs: 'This is a little message to tell you more about us.'})
+    res.render('about', {description: 'This is a little message to tell you more about us.', title: 'About App', name: 'Steve'})
 })
 
 app.get('/help', (req, res) => {
-    res.render('help', {helpMessage: 'If you want any help, just hit me up.'})
+    res.render('help', {title: 'help page', description: 'This page provides help to you.', name: 'Steve'})
 })
 
 
 
 app.get('/weather', (req, res) => {
     res.send(weather)
+})
+
+app.get('*', (req, res) => {
+    res.render('404')
 })
 
 const PORT = 3000
