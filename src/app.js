@@ -4,12 +4,15 @@ const weather = require('../objects/weather')
 
 
 const app = express()
+app.set('view engine', 'hbs')
 
 const myPath = path.join(__dirname, '../public')
 
 app.use(express.static(myPath))
 
-
+app.get('', (req, res) => {
+    res.render('index')
+})
 
 
 
