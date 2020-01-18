@@ -1,17 +1,20 @@
 const path = require('path')
 const express = require('express')
+const hbs = require('hbs')
 const weather = require('../objects/weather')
 
 
 const app = express()
 
 const staticFolder = path.join(__dirname, '../public')
-const templatesFolder = path.join(__dirname, '../templates')
+const templatesFolder = path.join(__dirname, '../templates/views')
+const partialsFolder = path.join(__dirname, '../templates/partials')
 
 
 app.use(express.static(staticFolder))
 app.set('view engine', 'hbs')
 app.set('views', templatesFolder)
+hbs.registerPartials(partialsFolder)
 
 app.get('', (req, res) => {
     res.render('index', {title: 'some title', name: 'some name'})
