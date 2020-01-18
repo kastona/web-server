@@ -4,14 +4,25 @@ const weather = require('../objects/weather')
 
 
 const app = express()
+
+const staticFolder = path.join(__dirname, '../public')
+const templatesFolder = path.join(__dirname, '../templates')
+
+
+app.use(express.static(staticFolder))
 app.set('view engine', 'hbs')
-
-const myPath = path.join(__dirname, '../public')
-
-app.use(express.static(myPath))
+app.set('views', templatesFolder)
 
 app.get('', (req, res) => {
-    res.render('index')
+    res.render('index', {title: 'some title', name: 'some name'})
+})
+
+app.get('/about', (req, res) => {
+    res.render('about', {aboutUs: 'This is a little message to tell you more about us.'})
+})
+
+app.get('/help', (req, res) => {
+    res.render('help', {helpMessage: 'If you want any help, just hit me up.'})
 })
 
 
