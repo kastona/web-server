@@ -1,7 +1,8 @@
 const path = require('path')
 const express = require('express')
 const hbs = require('hbs')
-const weather = require('../objects/weather')
+const geocode = require('./utils/geocode')
+const weather = require('./utils/weather')
 
 
 const app = express()
@@ -17,7 +18,7 @@ app.set('views', templatesFolder)
 hbs.registerPartials(partialsFolder)
 
 app.get('', (req, res) => {
-    res.render('index', {title: 'The root page', description: 'This is the main page of the app', name: 'Steve'})
+    res.render('index', {title: 'Weather', description: 'This is the main page of the app', name: 'Steve'})
 })
 
 app.get('/about', (req, res) => {
@@ -31,7 +32,30 @@ app.get('/help', (req, res) => {
 
 
 app.get('/weather', (req, res) => {
-    res.send(weather)
+    const address = req.query.address
+    if(!address) {
+        return res.send({error: 'No address provided'})
+    }
+
+    geocode(address, (error,{latitude, longitude, location} = {}) => {
+        if(error) {
+            return res.send({error})
+        }
+
+        weather(latitude, longitude, (error, {temperature, probabilityOfRain}) => {
+            if(error) return res.send({error})
+        
+
+        res.send({
+            temperature,
+            probabilityOfRain,
+            location,
+            searchAddress: address
+        })
+
+    })
+    })
+
 })
 
 app.get('/help/*', (req, res) => {
