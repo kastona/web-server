@@ -6,6 +6,7 @@ const weather = require('./utils/weather')
 
 
 const app = express()
+const PORT = process.env.PORT || 3000
 
 const staticFolder = path.join(__dirname, '../public')
 const templatesFolder = path.join(__dirname, '../templates/views')
@@ -66,7 +67,6 @@ app.get('*', (req, res) => {
     res.render('404', {error: 'Page not found'})
 })
 
-const PORT = 3000
 
 app.listen(PORT, () => {
     console.log(`listening to port ${PORT}`)
